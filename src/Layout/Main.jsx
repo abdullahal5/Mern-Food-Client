@@ -3,13 +3,15 @@ import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 
 const Main = () => {
-    return (
-      <div>
-        <Navbar />
-          <Outlet />
-          <Footer />
-      </div>
-    );
+  return (
+    <div>
+      <Navbar />
+      {/* <div className="h-screen"> */}
+        <Outlet />
+      {/* </div> */}
+      <Footer />
+    </div>
+  );
 };
 
 export default Main;

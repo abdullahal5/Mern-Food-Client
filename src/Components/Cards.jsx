@@ -8,7 +8,7 @@ const Cards = ({item}) => {
     setIsHeartFillted(!isHeartFillted);
   }
     return (
-      <div className="card w-80 h-auto bg-base-100 shadow-xl relative rounded-[30px]">
+      <div className="card w-72 h-auto bg-base-100 shadow-xl relative rounded-[30px]">
         <div
           className={`rating gap-1 absolute right-0 top-0 p-4 heartStar bg-green rounded-tr-[30px] rounded-bl-[30px] ${
             isHeartFillted ? "text-rose-500" : "text-white"
