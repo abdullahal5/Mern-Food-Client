@@ -42,7 +42,7 @@ const Menu = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [sortOption, setSortOption] = useState("default");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(8);
+  const [itemsPerPage] = useState(8);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -170,7 +170,9 @@ const Menu = () => {
             length: Math.ceil(filteredItems.length / itemsPerPage),
           }).map((_, index) => (
             <button
-              className={`btn rounded-full ${currentPage === index + 1 ? "bg-green text-white" : ""}`}
+              className={`btn rounded-full ${
+                currentPage === index + 1 ? "bg-green text-white" : ""
+              }`}
               key={index + 1}
               onClick={() => paginate(index + 1)}
             >

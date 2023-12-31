@@ -28,20 +28,7 @@ const Navbar = () => {
         <Link to="/">Home</Link>
       </li>
       <li>
-        <details>
-          <summary>Menu</summary>
-          <ul className="p-2">
-            <li>
-              <Link to="/menu">All</Link>
-            </li>
-            <li>
-              <Link to="/salad">Salad</Link>
-            </li>
-            <li>
-              <Link to="/pizza">Pizza</Link>
-            </li>
-          </ul>
-        </details>
+        <Link to="/menu">Menu</Link>
       </li>
       <li>
         <details>
