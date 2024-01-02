@@ -14,32 +14,32 @@ const Specialty = () => {
   const slider = useRef(null);
   
   useEffect(() => {
-    fetch("/Menu.json")
-    .then((res) => res.json())
-    .then((data) => {
-      const specials = data.filter(item => item.category === 'popular')
-      setRecipes(specials);
-    });
+    fetch("http://localhost:5000/menu")
+      .then((res) => res.json())
+      .then((data) => {
+        const specials = data.filter((item) => item.category === "popular");
+        setRecipes(specials);
+      });
   }, []);
-  const simpleNextArrow = (props) =>{
-    const {className, style, onClick} = props;
-    return (
-      <div className={className} style={{...style, display: "block", background: "red"}}  onClick={onClick}>Next</div>
-    )
-  }
+  // const simpleNextArrow = (props) =>{
+  //   const {className, style, onClick} = props;
+  //   return (
+  //     <div className={className} style={{...style, display: "block", background: "red"}}  onClick={onClick}>Next</div>
+  //   )
+  // }
   
-  const siplePrevArrow = (props) =>{
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{ ...style, display: "block", background: "green" }}
-        onClick={onClick}
-      >
-        Back
-      </div>
-    );
-  }
+  // const siplePrevArrow = (props) =>{
+  //   const { className, style, onClick } = props;
+  //   return (
+  //     <div
+  //       className={className}
+  //       style={{ ...style, display: "block", background: "green" }}
+  //       onClick={onClick}
+  //     >
+  //       Back
+  //     </div>
+  //   );
+  // }
 
   const settings = {
     dots: true,
@@ -74,8 +74,8 @@ const Specialty = () => {
         },
       },
     ],
-    nextArrow: <simpleNextArrow></simpleNextArrow>,
-    prevArrow: <siplePrevArrow></siplePrevArrow>
+    // nextArrow: <simpleNextArrow></simpleNextArrow>,
+    // prevArrow: <siplePrevArrow></siplePrevArrow>
   };
   return (
     <div className="py-16">
