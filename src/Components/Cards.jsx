@@ -20,7 +20,7 @@ const Cards = ({ item }) => {
   const handleAddToCart = (item) => {
     if (user && user?.email) {
       const cartItem = { menuItemId: _id, name, quantity: 1, image, price, email: user.email };
-      axiosPublic.post('/carts', cartItem)
+      axiosPublic.post('/add', cartItem)
         .then((res) => {
           if(res.data.insertedId){
             Swal.fire({

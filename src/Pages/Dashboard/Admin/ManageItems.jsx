@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { TbFidgetSpinner } from "react-icons/tb";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../Hook/useAxiosSecure";
 
 const ManageItems = () => {
+  const axiosSecure = useAxiosSecure();
   const {
     isPending,
     data: items = [],
@@ -12,10 +13,11 @@ const ManageItems = () => {
   } = useQuery({
     queryKey: ["items"],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/cartItems`);
-      return res.json();
+      const res = await axiosSecure.get("/cartItems");
+      return res.data;
     },
   });
+
   if (isPending) {
     <div className="flex justify-center h-[100vh] items-center flex-col">
       <TbFidgetSpinner className="animate-spin text-green" fontSize={"2rem"} />
@@ -34,7 +36,7 @@ const ManageItems = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete(`http://localhost:5000/cartItems/${item}`).then((res) => {
+        axiosSecure.delete(`/cartItems/${item}`).then((res) => {
           if (res.data.deletedCount > 0) {
             refetch();
             Swal.fire({
@@ -67,42 +69,42 @@ const ManageItems = () => {
               <th>Delete</th>
             </tr>
           </thead>
-            <tbody>
-              {items?.map((item, idx) => (
-                <tr key={item._id}>
-                  <td>{idx + 1}</td>
-                  <td>
-                    <div className="flex items-center gap-3">
-                      <div className="avatar">
-                        <div className="mask mask-squircle w-12 h-12">
-                          <img src={item?.image} />
-                        </div>
-                      </div>
-                      <div>
-                        <div className="font-bold">{item?.name}</div>
+          <tbody>
+            {items?.map((item, idx) => (
+              <tr key={item._id}>
+                <td>{idx + 1}</td>
+                <td>
+                  <div className="flex items-center gap-3">
+                    <div className="avatar">
+                      <div className="mask mask-squircle w-12 h-12">
+                        <img src={item?.image} />
                       </div>
                     </div>
-                  </td>
-                  <td>{item?.category}</td>
-                  <td>$ {item?.price}</td>
-                  <th>
-                    <Link to={`update/${item._id}`}>
-                      <button className="btn btn-ghost btn-xs bg-green text-white">
-                        Update
-                      </button>
-                    </Link>
-                  </th>
-                  <th>
-                    <button
-                      onClick={() => handleDeleteItem(item._id)}
-                      className="btn btn-ghost btn-xs bg-green text-white"
-                    >
-                      Delete
+                    <div>
+                      <div className="font-bold">{item?.name}</div>
+                    </div>
+                  </div>
+                </td>
+                <td>{item?.category}</td>
+                <td>$ {item?.price}</td>
+                <th>
+                  <Link to={`/dashboard/update/${item._id}`}>
+                    <button className="btn btn-ghost btn-xs bg-green text-white">
+                      Update
                     </button>
-                  </th>
-                </tr>
-              ))}
-            </tbody>
+                  </Link>
+                </th>
+                <th>
+                  <button
+                    onClick={() => handleDeleteItem(item._id)}
+                    className="btn btn-ghost btn-xs bg-green text-white"
+                  >
+                    Delete
+                  </button>
+                </th>
+              </tr>
+            ))}
+          </tbody>
         </table>
       </div>
     </div>

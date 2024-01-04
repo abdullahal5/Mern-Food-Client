@@ -10,7 +10,7 @@ const Profile = ({ user, setLoading, logout }) => {
     });
   };
   return (
-    <div className="drawer drawer-end">
+    <div className="drawer drawer-end z-50">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content z-50">
         {/* Page content here */}
@@ -32,7 +32,7 @@ const Profile = ({ user, setLoading, logout }) => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu  p-4 w-80 min-h-full bg-base-200 text-base-content">
+        <ul className="menu  p-4 w-80 z-50 min-h-full bg-base-200 text-base-content">
           <h1 className="text-center font-semibold text-3xl">
             {user.displayName}
           </h1>

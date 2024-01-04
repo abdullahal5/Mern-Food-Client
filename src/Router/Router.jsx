@@ -13,6 +13,7 @@ import AddProducts from "../Pages/Dashboard/Admin/AddProducts";
 import ManageBookings from "../Pages/Dashboard/Admin/ManageBookings";
 import ManageItems from "../Pages/Dashboard/Admin/ManageItems";
 import UpdateManageItems from "../Pages/Dashboard/Admin/UpdateManageItems";
+import AdminRoute from "./AdminRoute";
 
 const router = createBrowserRouter([
   {
@@ -63,28 +64,58 @@ const router = createBrowserRouter([
       },
       {
         path: "users",
-        element: <Users />,
+        element: (
+          <AdminRoute>
+            <PrivateRoute>
+              <Users />
+            </PrivateRoute>
+          </AdminRoute>
+        ),
       },
       {
         path: "addProduct",
-        element: <AddProducts />,
+        element: (
+          <AdminRoute>
+            <PrivateRoute>
+              <AddProducts />
+            </PrivateRoute>
+          </AdminRoute>
+        ),
       },
       {
         path: "managebookings",
-        element: <ManageBookings />,
+        element: (
+          <AdminRoute>
+            <PrivateRoute>
+              <ManageBookings />
+            </PrivateRoute>
+          </AdminRoute>
+        ),
       },
       {
         path: "manageitems",
-        element: <ManageItems />,
+        element: (
+          <AdminRoute>
+            <PrivateRoute>
+              <ManageItems />
+            </PrivateRoute>
+          </AdminRoute>
+        ),
       },
       {
-        path: "manageitems/update/:id",
-        element: <UpdateManageItems />,
-        loader: ({params}) =>
-          fetch(`http://localhost:5000/menu/${params.id}`),
+        path: "update/:id",
+        element: (
+          <AdminRoute>
+            <PrivateRoute>
+              <UpdateManageItems />
+            </PrivateRoute>
+          </AdminRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/cartItems/${params.id}`),
       },
     ],
   },
 ]);
 
-export default router
+export default router;

@@ -41,40 +41,44 @@ const DashboardLayout = () => {
               className="drawer-overlay"
             ></label>
             <ul className="menu flex flex-col pt-5 w-64 bg-gray-200 min-h-full text-base-content">
-              {
-                isAdmin ? <div>
-                <div className="py-3 flex items-center gap-3 justify-center text-center mx-auto">
-                  <img src="/logo.png" alt="" />
-                  <div className="badge badge-primary ">Admin</div>
+              {isAdmin ? (
+                <div>
+                  <Link to="/">
+                    <div className="py-3 flex items-center gap-3 justify-center text-center mx-auto">
+                      <img src="/logo.png" alt="" />
+                      <div className="badge badge-primary ">Admin</div>
+                    </div>
+                  </Link>
+                  <hr className="border-gray-300 my-1" />
+                  <li>
+                    <Link className="items-center">
+                      <RiDashboardFill fontSize={"1.5rem"} /> Dashboard
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="users">
+                      <PiUsersThreeFill fontSize={"1.5rem"} /> All Users
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="addProduct">
+                      <IoAddCircle fontSize={"1.5rem"} /> Add Product
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="managebookings">
+                      <FaBagShopping fontSize={"1.5rem"} /> Manage Bookings
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="manageitems">
+                      <FiEdit fontSize={"1.5rem"} /> Manage Items
+                    </Link>
+                  </li>
                 </div>
-                <hr className="border-gray-300 my-1" />
-                <li>
-                  <Link className="items-center">
-                    <RiDashboardFill fontSize={"1.5rem"} /> Dashboard
-                  </Link>
-                </li>
-                <li>
-                  <Link to="users">
-                    <PiUsersThreeFill fontSize={"1.5rem"} /> All Users
-                  </Link>
-                </li>
-                <li>
-                  <Link to="addProduct">
-                    <IoAddCircle fontSize={"1.5rem"} /> Add Product
-                  </Link>
-                </li>
-                <li>
-                  <Link to="managebookings">
-                    <FaBagShopping fontSize={"1.5rem"} /> Manage Bookings
-                  </Link>
-                </li>
-                <li>
-                  <Link to="manageitems">
-                    <FiEdit fontSize={"1.5rem"} /> Manage Items
-                  </Link>
-                </li>
-              </div> : ""
-              }
+              ) : (
+                ""
+              )}
               <hr className="border-gray-300 my-6" />
               <div>
                 <li>

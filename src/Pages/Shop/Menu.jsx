@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import Cards from "../../Components/Cards";
 import { FaFilter } from "react-icons/fa";
+import useAxiosPublic from "../../Hook/useAxiosPublic";
+import useAxiosSecure from "../../Hook/useAxiosSecure";
 
 const categoryName = [
   {
@@ -34,6 +36,11 @@ const categoryName = [
     name: "Drinks",
     path: "drinks",
   },
+  {
+    id: 7,
+    name: "Offered",
+    path: "offered",
+  },
 ];
 
 const Menu = () => {
@@ -43,14 +50,14 @@ const Menu = () => {
   const [sortOption, setSortOption] = useState("default");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(8);
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/cartItems");
-        const data = await response.json();
-        setMenu(data);
-        setFilteredItems(data);
+        const response = await axiosSecure.get("/cartItems");
+        setMenu(response.data);
+        setFilteredItems(response.data);
       } catch (err) {
         console.log(err.message);
       }
@@ -97,7 +104,7 @@ const Menu = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredItems?.slice(indexOfFirstItem, indexOfLastItem);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (

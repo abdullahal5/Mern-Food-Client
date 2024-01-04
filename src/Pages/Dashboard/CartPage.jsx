@@ -3,14 +3,14 @@ import useCart from "../../Hook/useCart";
 import Swal from "sweetalert2";
 import useAuth from "../../Hook/useAuth";
 import { useEffect, useState } from "react";
-import useAxiosPublic from "../../Hook/useAxiosPublic";
+import useAxiosSecure from "../../Hook/useAxiosSecure";
 
 const CartPage = () => {
   const [cart, isPending, refetch] = useCart();
   const { user } = useAuth();
   const [cartItems, setItems] = useState([]);
-  const axiosPublic = useAxiosPublic()
   const [cartSubTotal1, setCartSubTotal] = useState(0);
+  const axiosSecure = useAxiosSecure()
 
   if (isPending) {
     <div className="flex justify-center h-[100vh] items-center flex-col">
@@ -30,7 +30,7 @@ const CartPage = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosPublic
+        axiosSecure
           .delete(`/add/${item}`)
           .then((res) => {
             if (res.data.deletedCount > 0) {
@@ -52,14 +52,8 @@ const CartPage = () => {
 
   const handleDecrease = (item) => {
     if (item.quantity > 1) {
-      fetch(`http://localhost:5000/add/${item?._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ quantity: item.quantity - 1 }),
-      })
-        .then((res) => res.json())
+      axiosSecure
+        .put(`/add/${item?._id}`, { quantity: item.quantity - 1 })
         .then(() => {
           const updatedCart = cartItems.map((cartItem) => {
             if (cartItem.id === item._id) {
@@ -78,14 +72,8 @@ const CartPage = () => {
     }
   };
   const handleIncrease = (item) => {
-    fetch(`http://localhost:5000/add/${item?._id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ quantity: item.quantity + 1 }),
-    })
-      .then((res) => res.json())
+    axiosSecure
+      .put(`/add/${item?._id}`, { quantity: item.quantity + 1 })
       .then(() => {
         const updatedCart = cartItems.map((cartItem) => {
           if (cartItem.id === item._id) {
@@ -100,6 +88,7 @@ const CartPage = () => {
         setItems(updatedCart);
       });
   };
+
 
   useEffect(() => {
     const subTotal = cart.reduce((total, item) => {
