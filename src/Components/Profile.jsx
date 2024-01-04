@@ -15,14 +15,14 @@ const Profile = ({ user, setLoading, logout }) => {
       <div className="drawer-content z-50">
         {/* Page content here */}
         <label htmlFor="my-drawer-4" className=" btn-circle btn">
-          {user.photoURL ? (
+          {user?.photoURL ? (
             <img
               className="w-50 h-50 rounded-full"
               src={user?.photoURL}
               alt=""
             />
           ) : (
-            <FaUserAlt/>
+            <FaUserAlt />
           )}
         </label>
       </div>
@@ -45,6 +45,9 @@ const Profile = ({ user, setLoading, logout }) => {
           </li>
           <li>
             <Link>Settings</Link>
+          </li>
+          <li>
+            <Link to="dashboard">Dashboard</Link>
           </li>
           <li>
             <button className="w-full" onClick={handleLogout}>

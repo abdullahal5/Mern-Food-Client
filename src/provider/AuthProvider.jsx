@@ -12,10 +12,13 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { app } from "../firebase/firebase.config";
+import axios from "axios";
+import useAxiosPublic from "../Hook/useAxiosPublic";
 
 export const AuthContext = createContext(null);
 
 const Authprovider = ({ children }) => {
+  const axiosPublic = useAxiosPublic()
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
 
@@ -46,6 +49,18 @@ const Authprovider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (CUser) => {
       setUser(CUser);
+      if(CUser){
+        const userInfo = { email: CUser.email };
+        axiosPublic.post('/jwt', userInfo)
+        .then((res) => {
+          if(res.data.token){
+            localStorage.setItem("access-token", res.data.token)
+          }
+        });
+      }
+      else{
+        localStorage.removeItem("access-token");
+      }
       setLoading(false);
     });
     return () => {

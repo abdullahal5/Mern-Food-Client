@@ -6,18 +6,19 @@ import { useEffect, useRef, useState } from "react";
 import Cards from "./Cards";
 import {} from 'react-icons/fa6'
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+import useAxiosPublic from "../Hook/useAxiosPublic";
 
 
 const Specialty = () => {
   const [recipes, setRecipes] = useState([]);
+  const axiosPublic = useAxiosPublic()
   
   const slider = useRef(null);
   
   useEffect(() => {
-    fetch("http://localhost:5000/menu")
-      .then((res) => res.json())
-      .then((data) => {
-        const specials = data.filter((item) => item.category === "popular");
+    axiosPublic("/menu")
+      .then((res) => {
+        const specials = res.data.filter((item) => item.category === "popular");
         setRecipes(specials);
       });
   }, []);

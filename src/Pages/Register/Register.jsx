@@ -4,16 +4,19 @@ import { FaGoogle, FaGithub } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import Modal from "../../Components/Modal";
-import { useContext, useState } from "react";
-import { AuthContext } from "../../provider/AuthProvider";
+import { useState } from "react";
 import { TbFidgetSpinner } from "react-icons/tb";
 import axios from "axios";
+import useAuth from "../../Hook/useAuth";
+import useAxiosPublic from "../../Hook/useAxiosPublic";
 
 const Register = () => {
   const { createUser, updateUserProfile, loading, setLoading, googleSignIn } =
-    useContext(AuthContext);
+    useAuth();
   const navigate = useNavigate();
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
+  const axiosPublic = useAxiosPublic();
+
   const {
     register,
     reset,
@@ -34,8 +37,8 @@ const Register = () => {
         },
       }
     );
-    setError('')
-      createUser(data.email, data.password)
+    setError("");
+    createUser(data.email, data.password)
       .then(() => {
         updateUserProfile(data.name, res?.data?.data?.display_url);
         reset();
@@ -44,28 +47,46 @@ const Register = () => {
         setTimeout(() => {
           navigate("/");
         }, 200);
+        const userInformation = {
+          name: data.name,
+          email: data.email,
+          photoURL: res?.data?.data?.display_url,
+          role: "User",
+        };
+        axiosPublic.post("/users", userInformation).then((res) => {
+          console.log(res.data);
+        });
       })
-      .catch(err =>{
-        setError(err.message)
-        reset()
-        setLoading(false)
-      })
+      .catch((err) => {
+        setError(err.message);
+        reset();
+        setLoading(false);
+      });
   };
-  const handleGoogleRegister = () =>{
+  const handleGoogleRegister = () => {
     googleSignIn()
-    .then(() =>{
-      toast.success("Successfully Registered!");
-      setLoading(false);
-      setTimeout(() => {
-        navigate("/");
-      }, 200);
-    })
-    .catch(err =>{
-      setError(err.message);
-      reset();
-      setLoading(false);
-    })
-  }
+      .then((result) => {
+        const userInfo = {
+          name: result.user.displayName,
+          email: result.user.email,
+          photoURL: result.user.photoURL,
+          role: "User",
+        };
+        axiosPublic.post("/users", userInfo).then((res) => {
+          console.log(res.data);
+        });
+        toast.success("Successfully Registered!");
+        setLoading(false);
+        setTimeout(() => {
+          navigate("/");
+        }, 200);
+      })
+      .catch((err) => {
+        setError(err.message);
+        reset();
+        setLoading(false);
+      });
+  };
   return (
     <div className="items-center mt-16 ">
       <div>
@@ -84,7 +105,6 @@ const Register = () => {
             {...register("name", { required: true })}
             placeholder="user name"
             name="name"
-            id=""
           />
         </div>
         <div className="text-center text-red">
@@ -100,7 +120,6 @@ const Register = () => {
             {...register("image", { required: true })}
             placeholder="user image"
             name="image"
-            id=""
           />
         </div>
         <div className="text-center text-red">
@@ -116,7 +135,6 @@ const Register = () => {
             {...register("email", { required: true })}
             placeholder="user email"
             name="email"
-            id=""
           />
         </div>
         <div className="text-center text-red">
@@ -137,7 +155,6 @@ const Register = () => {
             })}
             placeholder="user password"
             name="password"
-            id=""
           />
         </div>
         <div className="text-center text-red pb-3">
@@ -183,7 +200,10 @@ const Register = () => {
         <button className="btn btn-circle hover:text-green">
           <FaFacebookF color="" fontSize={"1.5rem"} />
         </button>
-        <button onClick={handleGoogleRegister} className="btn btn-circle hover:text-green">
+        <button
+          onClick={handleGoogleRegister}
+          className="btn btn-circle hover:text-green"
+        >
           <FaGoogle fontSize={"1.5rem"} />
         </button>
         <button className="btn btn-circle hover:text-green">

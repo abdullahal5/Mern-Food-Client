@@ -1,13 +1,15 @@
 import { TbFidgetSpinner } from "react-icons/tb";
 import useCart from "../../Hook/useCart";
 import Swal from "sweetalert2";
-import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../provider/AuthProvider";
+import useAuth from "../../Hook/useAuth";
+import { useEffect, useState } from "react";
+import useAxiosPublic from "../../Hook/useAxiosPublic";
 
 const CartPage = () => {
   const [cart, isPending, refetch] = useCart();
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
   const [cartItems, setItems] = useState([]);
+  const axiosPublic = useAxiosPublic()
   const [cartSubTotal1, setCartSubTotal] = useState(0);
 
   if (isPending) {
@@ -28,12 +30,10 @@ const CartPage = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/add/${item}`, {
-          method: "DELETE",
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.deletedCount > 0) {
+        axiosPublic
+          .delete(`/add/${item}`)
+          .then((res) => {
+            if (res.data.deletedCount > 0) {
               Swal.fire({
                 title: "Deleted!",
                 text: "Your file has been deleted.",

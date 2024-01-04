@@ -3,13 +3,13 @@ import { FaFacebookF } from "react-icons/fa6";
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
-import { useContext, useRef, useState } from "react";
-import { AuthContext } from "../provider/AuthProvider";
 import { TbFidgetSpinner } from "react-icons/tb";
+import useAuth from "../Hook/useAuth";
+import { useRef, useState } from "react";
 
 const Modal = () => {
     const { signIn, loading, setLoading, googleSignIn } =
-      useContext(AuthContext);
+      useAuth();
     const navigate = useNavigate()
     const dialogRef = useRef(null);
     const [error, setError] = useState("")
@@ -76,7 +76,6 @@ const Modal = () => {
                   {...register("email", { required: true })}
                   placeholder="user email"
                   name="email"
-                  id=""
                 />
               </div>
               <div className="text-center text-red">
@@ -97,7 +96,6 @@ const Modal = () => {
                   })}
                   placeholder="user password"
                   name="password"
-                  id=""
                 />
               </div>
               <div className="text-center text-red">

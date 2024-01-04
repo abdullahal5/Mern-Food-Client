@@ -1,16 +1,17 @@
-import { useContext, useState } from "react";
-import { Link, json, useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaHeart } from "react-icons/fa";
-import { AuthContext } from "../provider/AuthProvider";
-import axios from "axios";
 import Swal from "sweetalert2";
 import useCart from "../Hook/useCart";
+import useAuth from "../Hook/useAuth";
+import useAxiosPublic from "../Hook/useAxiosPublic";
 
 const Cards = ({ item }) => {
   const { name, image, price, recipe, _id } = item;
   const [isHeartFillted, setIsHeartFillted] = useState(false);
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
   const navigate = useNavigate()
+  const axiosPublic = useAxiosPublic()
   const location = useLocation()
   const [ , , refetch] = useCart()
   const handleHeartClick = () => {
@@ -19,16 +20,9 @@ const Cards = ({ item }) => {
   const handleAddToCart = (item) => {
     if (user && user?.email) {
       const cartItem = { menuItemId: _id, name, quantity: 1, image, price, email: user.email };
-      fetch("http://localhost:5000/carts", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(cartItem),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if(data.insertedId){
+      axiosPublic.post('/carts', cartItem)
+        .then((res) => {
+          if(res.data.insertedId){
             Swal.fire({
               title: "Good job!",
               text: "You Successfully added a cart!",

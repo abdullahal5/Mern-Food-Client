@@ -1,9 +1,9 @@
-import { useContext } from "react";
-import { AuthContext } from "../provider/AuthProvider";
 import { useQuery } from "@tanstack/react-query";
+import useAuth from "./useAuth";
 
 const useCart = () => {
-    const {user} = useContext(AuthContext)
+    const {user} = useAuth()
+    const token = localStorage.getItem("access-token");
      const {
        isPending,
        data: cart = [],
@@ -11,7 +11,11 @@ const useCart = () => {
      } = useQuery({
        queryKey: ["carts"],
        queryFn: async () =>{
-        const res = await fetch(`http://localhost:5000/carts?email=${user?.email}`)
+        const res = await fetch(`http://localhost:5000/carts?email=${user?.email}`, {
+          headers: {
+            authorization: `Bearer ${token}`
+          }
+        })
         return res.json()
     }
      });
