@@ -42,6 +42,7 @@ const UpdatedProfile = () => {
             type="file"
             placeholder="Photo"
             name="image"
+            
             {...register("image", { required: true })}
             className="file-input file-input-bordered w-full outline-none"
             required

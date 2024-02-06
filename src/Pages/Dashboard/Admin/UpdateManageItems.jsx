@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 
 const UpdateManageItems = () => {
   const loader = useLoaderData();
-  const { _id, name, recipe, category, price } = loader;
+  const { _id, name, recipe, category, price, image } = loader;
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate()
   const {
@@ -33,7 +33,7 @@ const UpdateManageItems = () => {
       name: data.name,
       recipe: data?.bio,
       category: data.category,
-      image: res?.data?.data?.display_url,
+      image: res?.data?.data?.display_url ,
       price: data.price,
     };
 
@@ -132,8 +132,9 @@ const UpdateManageItems = () => {
               <input
                 type="file"
                 name="image"
+                placeholder={image}
                 // value={loader?.image}
-                // defaultValue={loader?.image}
+                // defaultValue={image}
                 {...register("image")}
                 className="file-input file-input-bordered w-full max-w-xs"
               />

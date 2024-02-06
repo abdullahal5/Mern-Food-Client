@@ -3,6 +3,7 @@ import useCart from "../../Hook/useCart";
 import Swal from "sweetalert2";
 import useAuth from "../../Hook/useAuth";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import useAxiosSecure from "../../Hook/useAxiosSecure";
 
 const CartPage = () => {
@@ -136,8 +137,8 @@ const CartPage = () => {
                       </div>
                     </div>
                   </td>
-                  <td>$ {calculatePrice(item).toFixed(2)}</td>
-                  <td>
+                  <td className="">$ {calculatePrice(item).toFixed(2)}</td>
+                  <td className="flex items-center ">
                     <button
                       onClick={() => handleDecrease(item)}
                       className="btn btn-xs btn-circle"
@@ -174,7 +175,7 @@ const CartPage = () => {
           </table>
         </div>
       </div>
-      <div className="my-7 flex justify-around items-center md:flex-row lg:flex-row flex-col border p-10">
+      <div className="my-7 flex justify-around items-center md:flex-row lg:flex-row flex-col gap-10 border p-10">
         <div className=" space-y-3 ">
           <h3 className="font-semibold text-xl ">Customer Details</h3>
           <p>Name: {user.displayName}</p>
@@ -185,7 +186,11 @@ const CartPage = () => {
           <h3 className="font-semibold text-xl ">Shopping Details</h3>
           <p>Total Items: {cart.length}</p>
           <p>Total Price: ${cartSubTotal1.toFixed(2)}</p>
-          <button className="btn bg-green text-white">Procceed Checkout</button>
+          <Link to="/payment">
+            <button className="btn bg-green text-white">
+              Procceed Checkout
+            </button>
+          </Link>
         </div>
       </div>
     </div>

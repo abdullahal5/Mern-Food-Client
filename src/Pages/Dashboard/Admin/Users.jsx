@@ -37,7 +37,7 @@ const Users = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axiosSecure
-          .delete(`http://localhost:5000/users/${item}`)
+          .delete(`https://food-project-server.vercel.app/users/${item}`)
           .then((res) => {
             if (res.data.deletedCount > 0) {
               refetch();
@@ -53,7 +53,7 @@ const Users = () => {
   };
 
   const handleMakeAdmin = (item) => {
-    axiosSecure.patch(`http://localhost:5000/users/${item._id}`).then((res) => {
+    axiosSecure.patch(`/users/${item._id}`).then((res) => {
       if (res.data.modifiedCount > 0) {
         refetch();
         Swal.fire({

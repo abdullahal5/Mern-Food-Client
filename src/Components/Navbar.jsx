@@ -128,11 +128,11 @@ const Navbar = () => {
                 />
               </svg>
             </button>
-            <Link to="/cartpage">
+            <Link className="flex justify-center items-center" to="/cartpage">
               <div
                 tabIndex={0}
                 role="button"
-                className="btn btn-ghost btn-circle mr-3 items-center justify-center hidden lg:flex md:flex"
+                className="btn btn-ghost btn-circle mr-3 items-center justify-center lg:flex md:flex"
               >
                 <div className="indicator">
                   <svg

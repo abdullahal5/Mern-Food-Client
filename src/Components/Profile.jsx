@@ -41,9 +41,6 @@ const Profile = ({ user, setLoading, logout }) => {
             <Link to="/updatedprofile">Profile</Link>
           </li>
           <li>
-            <Link>Order</Link>
-          </li>
-          <li>
             <Link>Settings</Link>
           </li>
           <li>

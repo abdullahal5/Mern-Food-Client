@@ -28,11 +28,13 @@ const AddProducts = () => {
       }
     );
 
+
     const addData = {
       name: data.name,
+      recipe: data.bio,
+      image: res.data.data.display_url,
       category: data.category,
       price: data.price,
-      image: res.data.data.display_url,
     };
     axiosSecure.post("/cartItems", addData).then((res) => {
       if (res.data.insertedId) {

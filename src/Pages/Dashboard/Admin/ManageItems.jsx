@@ -7,9 +7,9 @@ import useAxiosSecure from "../../../Hook/useAxiosSecure";
 const ManageItems = () => {
   const axiosSecure = useAxiosSecure();
   const {
-    isPending,
     data: items = [],
     refetch,
+    isLoading
   } = useQuery({
     queryKey: ["items"],
     queryFn: async () => {
@@ -18,7 +18,7 @@ const ManageItems = () => {
     },
   });
 
-  if (isPending) {
+  if (isLoading) {
     <div className="flex justify-center h-[100vh] items-center flex-col">
       <TbFidgetSpinner className="animate-spin text-green" fontSize={"2rem"} />
       <p className="py-2 font-semibold">Loading...</p>
@@ -49,6 +49,7 @@ const ManageItems = () => {
       }
     });
   };
+
   return (
     <div>
       <div className="flex items-center justify-around text-green">
@@ -106,6 +107,7 @@ const ManageItems = () => {
             ))}
           </tbody>
         </table>
+        <div></div>
       </div>
     </div>
   );

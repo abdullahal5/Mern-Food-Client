@@ -11,10 +11,34 @@ import { GoSidebarCollapse } from "react-icons/go";
 import { RiCustomerService2Fill } from "react-icons/ri";
 import useAdmin from "../Hook/useAdmin";
 import useAuth from "../Hook/useAuth";
+import { TbFidgetSpinner } from "react-icons/tb";
 
 const DashboardLayout = () => {
   const [isAdmin, isAdminLoading, refetch] = useAdmin();
-  const {loading} = useAuth()
+  const {loading} = useAuth();
+
+  if (loading) {
+    return (
+      <div className="flex justify-center h-[100vh] items-center flex-col">
+        <TbFidgetSpinner
+          className="animate-spin text-green"
+          fontSize={"2rem"}
+        />
+        <p className="py-2 font-semibold">Loading...</p>
+      </div>
+    );
+  }
+  if (isAdminLoading) {
+    return (
+      <div className="flex justify-center h-[100vh] items-center flex-col">
+        <TbFidgetSpinner
+          className="animate-spin text-green"
+          fontSize={"2rem"}
+        />
+        <p className="py-2 font-semibold">Loading...</p>
+      </div>
+    );
+  }
   return (
     <div className="mx-3">
       <div className="flex md:flex-row lg:flex-row flex-col">
@@ -41,17 +65,17 @@ const DashboardLayout = () => {
               className="drawer-overlay"
             ></label>
             <ul className="menu flex flex-col pt-5 w-64 bg-gray-200 min-h-full text-base-content">
-              {isAdmin ? (
-                <div>
                   <Link to="/">
                     <div className="py-3 flex items-center gap-3 justify-center text-center mx-auto">
                       <img src="/logo.png" alt="" />
                       <div className="badge badge-primary ">Admin</div>
                     </div>
                   </Link>
+              {isAdmin ? (
+                <div>
                   <hr className="border-gray-300 my-1" />
                   <li>
-                    <Link className="items-center">
+                    <Link to="dashboard" className="items-center">
                       <RiDashboardFill fontSize={"1.5rem"} /> Dashboard
                     </Link>
                   </li>
@@ -77,32 +101,33 @@ const DashboardLayout = () => {
                   </li>
                 </div>
               ) : (
-                ""
+                <div>
+                  <hr className="border-gray-300 my-6" />
+                  <div>
+                    <li>
+                      <Link to="/">
+                        <IoHome fontSize={"1.5rem"} /> Home
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/payment">
+                        <MdRestaurantMenu fontSize={"1.5rem"} /> Payment
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/dashboard/order">
+                        <FaLocationArrow fontSize={"1.5rem"} /> Order Tracking
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="customercare">
+                        <RiCustomerService2Fill fontSize={"1.5rem"} /> Customer
+                        Support
+                      </Link>
+                    </li>
+                  </div>
+                </div>
               )}
-              <hr className="border-gray-300 my-6" />
-              <div>
-                <li>
-                  <Link to="/">
-                    <IoHome fontSize={"1.5rem"} /> Home
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/menu">
-                    <MdRestaurantMenu fontSize={"1.5rem"} /> Menu
-                  </Link>
-                </li>
-                <li>
-                  <Link to="ordertracking">
-                    <FaLocationArrow fontSize={"1.5rem"} /> Order Tracking
-                  </Link>
-                </li>
-                <li>
-                  <Link to="customercare">
-                    <RiCustomerService2Fill fontSize={"1.5rem"} /> Customer
-                    Support
-                  </Link>
-                </li>
-              </div>
             </ul>
           </div>
         </div>
