@@ -10,28 +10,34 @@ const Cards = ({ item }) => {
   const { name, image, price, recipe, _id } = item;
   const [isHeartFillted, setIsHeartFillted] = useState(false);
   const { user } = useAuth();
-  const navigate = useNavigate()
-  const axiosPublic = useAxiosPublic()
-  const location = useLocation()
-  const [ , , refetch] = useCart()
+  const navigate = useNavigate();
+  const axiosPublic = useAxiosPublic();
+  const location = useLocation();
+  const [, , refetch] = useCart();
   const handleHeartClick = () => {
     setIsHeartFillted(!isHeartFillted);
   };
   const handleAddToCart = (item) => {
     if (user && user?.email) {
-      const cartItem = { menuItemId: _id, name, quantity: 1, image, price, email: user.email };
-      axiosPublic.post('/add', cartItem)
-        .then((res) => {
-          if(res.data.insertedId){
-            Swal.fire({
-              title: "Good job!",
-              text: "You Successfully added a cart!",
-              icon: "success",
-            });
-            refetch()
-          }
-        });
-    }else{
+      const cartItem = {
+        menuItemId: _id,
+        name,
+        quantity: 1,
+        image,
+        price,
+        email: user.email,
+      };
+      axiosPublic.post("/add", cartItem).then((res) => {
+        if (res.data._id) {
+          Swal.fire({
+            title: "Good job!",
+            text: "You Successfully added a cart!",
+            icon: "success",
+          });
+          refetch();
+        }
+      });
+    } else {
       Swal.fire({
         title: "Sorry! you can't add cart",
         text: " You are not logged in, Login or Register first!",
@@ -42,7 +48,7 @@ const Cards = ({ item }) => {
         confirmButtonText: "Yes, I want Login",
       }).then((result) => {
         if (result.isConfirmed) {
-          navigate("/register", {state: {from: location}});
+          navigate("/register", { state: { from: location } });
         }
       });
     }
